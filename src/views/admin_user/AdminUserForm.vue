@@ -40,7 +40,7 @@ export default {
       rules: {
         username: [
           { required: true, trigger: 'blur' },
-          { pattern: /^\w{3,}$/, message: 'at least 3 alphabetas or alphabetas + numbers', trigger: 'blur' }
+          { pattern: /^[A-Za-z0-9]{3,}$/, message: 'at least 3 alphabetas or alphabetas + numbers', trigger: 'blur' }
         ],
         password: [
           { required: true, trigger: 'blur' },

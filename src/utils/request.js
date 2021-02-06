@@ -64,7 +64,9 @@ service.interceptors.response.use(
           type: 'warning'
         })
         store.dispatch('user/resetToken').then(() => {
-          router.push('/login')
+          if (router.currentRoute.path !== '/login') {
+            router.push('/login')
+          }
         })
         break
 

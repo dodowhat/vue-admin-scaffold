@@ -162,7 +162,7 @@ export default {
     createItem() {
       this.$prompt('Role Name', 'Create Role', {
         confirmButtonText: 'Submit',
-        inputPattern: /^\w{3,}$/,
+        inputPattern: /^[A-Za-z0-9]{3,}$/,
         inputErrorMessage: 'at least 3 alphabetas or alphabetas + numbers'
       }).then(({ value }) => {
         createItem({ name: value }).then(response => {
