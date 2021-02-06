@@ -1,5 +1,7 @@
+
 <template>
-  <component :is="type" v-bind="linkProps(to)">
+  <!-- eslint-disable vue/require-component-is -->
+  <component v-bind="linkProps(to)" @click="handleClick(to)">
     <slot />
   </component>
 </template>
@@ -14,28 +16,21 @@ export default {
       required: true
     }
   },
-  computed: {
-    isExternal() {
-      return isExternal(this.to)
-    },
-    type() {
-      if (this.isExternal) {
-        return 'a'
-      }
-      return 'router-link'
-    }
-  },
   methods: {
-    linkProps(to) {
-      if (this.isExternal) {
-        return {
-          href: to,
-          target: '_blank',
-          rel: 'noopener'
-        }
-      }
+    linkProps(url) {
       return {
-        to: to
+        is: 'div'
+      }
+    },
+    handleClick(url) {
+      if (url === this.$route.path || this.$route.path.includes(url)) {
+        this.$root.rReplace(url)
+      } else if (isExternal(url)) {
+        window.open(url, '_blank')
+      } else {
+        this.$router.push({
+          path: url
+        })
       }
     }
   }

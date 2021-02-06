@@ -23,6 +23,23 @@ import { mapGetters } from 'vuex'
 import Logo from './Logo'
 import SidebarItem from './SidebarItem'
 import variables from '@/styles/variables.scss'
+import { constantRoutes } from '@/router'
+
+function hideNoPermissionRoutes(routes, roles) {
+  const updatedRoutes = JSON.parse(JSON.stringify(routes))
+  for (let i = 0; i < routes.length; i++) {
+    const route = updatedRoutes[i]
+    if (route.meta && route.meta.roles) {
+      if (!roles.some(role => route.meta.roles.includes(role))) {
+        route.hidden = true
+      }
+    }
+    if (route.children && route.children.length > 0) {
+      route.children = hideNoPermissionRoutes(route.children, roles)
+    }
+  }
+  return updatedRoutes
+}
 
 export default {
   components: { SidebarItem, Logo },
@@ -31,7 +48,7 @@ export default {
       'sidebar'
     ]),
     routes() {
-      return this.$router.options.routes
+      return hideNoPermissionRoutes(constantRoutes, this.$store.getters.roles)
     },
     activeMenu() {
       const route = this.$route
@@ -54,3 +71,7 @@ export default {
   }
 }
 </script>
+
+<style>
+/* path { fill: inherit !important } */
+</style>
