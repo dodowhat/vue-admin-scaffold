@@ -21,3 +21,11 @@ export function logout() {
     method: 'delete'
   })
 }
+
+export function updatePassword(data) {
+  return request({
+    url: '/admin/update_password',
+    method: 'patch',
+    data
+  })
+}

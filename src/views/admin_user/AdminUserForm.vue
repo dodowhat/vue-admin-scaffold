@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-form
+      ref="userForm"
       :model="formData"
       label-width="100px"
       :rules="rules"
@@ -38,11 +39,11 @@ export default {
     return {
       rules: {
         username: [
-          { required: true, message: 'username cannot be blank', trigger: 'blur' },
+          { required: true, trigger: 'blur' },
           { pattern: /^\w{3,}$/, message: 'at least 3 alphabetas or alphabetas + numbers', trigger: 'blur' }
         ],
         password: [
-          { required: true, message: 'password cannot be blank', trigger: 'blur' },
+          { required: true, trigger: 'blur' },
           { min: 8, message: 'at least 8 characters', trigger: 'blur' }
         ]
       }
@@ -50,7 +51,11 @@ export default {
   },
   methods: {
     submit() {
-      this.$emit('submit', this.formData)
+      this.$refs.userForm.validate(isValid => {
+        if (isValid) {
+          this.$emit('submit', this.formData)
+        }
+      })
     }
   }
 }

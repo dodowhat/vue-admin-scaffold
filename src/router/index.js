@@ -72,6 +72,18 @@ export const constantRoutes = [
   },
 
   {
+    path: '/update_password',
+    component: Layout,
+    hidden: true,
+    children: [{
+      path: '',
+      name: 'UpdatePassword',
+      component: () => import('@/views/update_password/index'),
+      meta: { title: 'Update Password', icon: 'dashboard' }
+    }]
+  },
+
+  {
     path: '/admin_users',
     component: Layout,
     meta: { roles: ['admin'] },
