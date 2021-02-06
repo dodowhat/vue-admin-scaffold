@@ -23,7 +23,6 @@ import { mapGetters } from 'vuex'
 import Logo from './Logo'
 import SidebarItem from './SidebarItem'
 import variables from '@/styles/variables.scss'
-import { constantRoutes } from '@/router'
 
 function hideNoPermissionRoutes(routes, roles) {
   const updatedRoutes = JSON.parse(JSON.stringify(routes))
@@ -48,7 +47,7 @@ export default {
       'sidebar'
     ]),
     routes() {
-      return hideNoPermissionRoutes(constantRoutes, this.$store.getters.roles)
+      return hideNoPermissionRoutes(this.$router.options.routes, this.$store.getters.roles)
     },
     activeMenu() {
       const route = this.$route
