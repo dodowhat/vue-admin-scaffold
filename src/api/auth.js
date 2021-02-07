@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/admin/login',
+    url: '/admin/auth',
     method: 'post',
     data
   })
@@ -10,21 +10,21 @@ export function login(data) {
 
 export function getInfo(token) {
   return request({
-    url: '/admin/profile',
+    url: '/admin/auth',
     method: 'get'
   })
 }
 
 export function logout() {
   return request({
-    url: '/admin/logout',
+    url: '/admin/auth',
     method: 'delete'
   })
 }
 
 export function updatePassword(data) {
   return request({
-    url: '/admin/update_password',
+    url: '/admin/auth/update_password',
     method: 'patch',
     data
   })
