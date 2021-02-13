@@ -4,7 +4,11 @@ Admin Dashboard Frontend, based on [vue-admin-template](https://github.com/PanJi
 
 Official Documentation [vue-element-admin](https://panjiachen.github.io/vue-element-admin-site/#/)
 
-Corresponding backend API service scaffold [lumen-scaffold](https://github.com/dodowhat/lumen-scaffold)
+Corresponding backend API service scaffold:
+
+- PHP Version: [lumen-scaffold](https://github.com/dodowhat/lumen-scaffold)
+
+- JAVA Version: [spring-boot-scaffold](https://github.com/dodowhat/spring-boot-scaffold)
 
 ## Development
 
