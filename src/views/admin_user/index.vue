@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-table
       v-loading="loading"
-      :data="list.data"
+      :data="list"
       style="width:100%"
     >
       <el-table-column
@@ -66,10 +66,9 @@
 
     <br>
     <pagination
-      v-if="list.data"
-      :total="list.total"
-      :page.sync="list.current_page"
-      :limit.sync="list.per_page"
+      :total="pagination.total"
+      :page.sync="query.page"
+      :limit.sync="pagination.pageSize"
       layout="total, prev, pager, next, jumper"
       @pagination="pageChange"
     />
@@ -129,7 +128,7 @@ export default {
   data() {
     return {
       loading: true,
-      list: {},
+      list: [],
       query: {},
       rolesVisible: false,
       roles: [],
@@ -139,14 +138,25 @@ export default {
       user: {},
       roleTreeDefaultChecked: [],
       roleTreeLoading: false,
-      createItemDialogVisible: false
+      createItemDialogVisible: false,
+      pagination: {
+        total: 0,
+        pageSize: 10
+      }
     }
   },
   created() {
     this.query.page = this.$route.query ? Number(this.$route.query) : 1
     fetchList(this.query).then(response => {
       this.loading = false
-      this.list = response.data
+      // Lumen
+      this.list = response.data.data
+      this.pagination.total = response.data.total
+      this.pagination.pageSize = response.data.per_page
+      // Spring Boot
+      this.list = response.data.content
+      this.pagination.total = response.data.total_elements
+      this.pagination.pageSize = response.data.pageable.page_size
     })
   },
   methods: {
