@@ -51,7 +51,7 @@
     </el-table>
 
     <el-dialog
-      :title="`Assigning actions for ${role.name}`"
+      :title="`Assigning permissions for ${role.name}`"
       :visible.sync="actionsVisible"
       @closed="hideActions"
     >
