@@ -6,7 +6,7 @@ Official Documentation [vue-element-admin](https://panjiachen.github.io/vue-elem
 
 Corresponding backend API service scaffold:
 
-- JAVA Version: [spring-boot-scaffold](https://github.com/dodowhat/spring-boot-example)
+- JAVA Version: [spring-boot-example](https://github.com/dodowhat/spring-boot-example)
 
 ## Development
 
