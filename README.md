@@ -6,15 +6,13 @@ Official Documentation [vue-element-admin](https://panjiachen.github.io/vue-elem
 
 Corresponding backend API service scaffold:
 
-- PHP Version: [lumen-scaffold](https://github.com/dodowhat/lumen-scaffold)
-
-- JAVA Version: [spring-boot-scaffold](https://github.com/dodowhat/spring-boot-scaffold)
+- JAVA Version: [spring-boot-scaffold](https://github.com/dodowhat/spring-boot-example)
 
 ## Development
 
 ### Downloading Project
 
-    git clone https://github.com/dodowhat/vue-admin-scaffold
+    git clone https://github.com/dodowhat/vue-admin-example
 
 ### Installing Independencies
 
