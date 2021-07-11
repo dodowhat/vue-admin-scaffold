@@ -17,7 +17,7 @@
         label="Roles"
       >
         <template slot-scope="scope">
-          {{ scope.row.roles | roleNames }}
+          {{ scope.row.roles }}
         </template>
       </el-table-column>
       <el-table-column
@@ -81,10 +81,9 @@
       <el-tree
         ref="roleTree"
         v-loading="roleTreeLoading"
-        node-key="id"
+        node-key="name"
         :data="roles"
-        :props="roleTreeProps"
-        :default-checked-keys="roleTreeDefaultChecked"
+        :props="{ label: 'name' }"
         show-checkbox
       />
       <div slot="footer">
@@ -107,10 +106,12 @@ import {
   fetchList,
   destroyItem,
   resetPassword,
-  assignRoles,
   createItem
-} from '@/api/admin_user'
-import { fetchList as fetchRoles } from '@/api/admin_role'
+} from '@/api/administrator'
+import {
+  fetchRoles,
+  assignRolesForAdministrator
+} from '@/api/rbac'
 
 import Pagination from '@/components/Pagination'
 import AdminUserForm from './AdminUserForm.vue'
@@ -121,9 +122,6 @@ export default {
     AdminUserForm
   },
   filters: {
-    roleNames(roles) {
-      return roles.map(role => role.name)
-    }
   },
   data() {
     return {
@@ -132,11 +130,7 @@ export default {
       query: {},
       rolesVisible: false,
       roles: [],
-      roleTreeProps: {
-        label: 'name'
-      },
       user: {},
-      roleTreeDefaultChecked: [],
       roleTreeLoading: false,
       createItemDialogVisible: false,
       pagination: {
@@ -149,11 +143,6 @@ export default {
     this.query.page = this.$route.query ? Number(this.$route.query) : 1
     fetchList(this.query).then(response => {
       this.loading = false
-      // Lumen
-      this.list = response.data.data
-      this.pagination.total = response.data.total
-      this.pagination.pageSize = response.data.per_page
-      // Spring Boot
       this.list = response.data.content
       this.pagination.total = response.data.total_elements
       this.pagination.pageSize = response.data.pageable.page_size
@@ -201,20 +190,26 @@ export default {
       this.rolesVisible = true
       this.rolesLoading = true
       this.user = Object.assign({}, user)
-      fetchRoles().then(response => {
+      if (this.roles.length > 0) {
+        this.$refs.roleTree.setCheckedKeys(this.user.roles)
         this.rolesLoading = false
-        this.roles = response.data
-        this.roleTreeDefaultChecked = this.user.roles.map(role => role.id)
-      })
+      } else {
+        fetchRoles().then(response => {
+          this.roles = response.data.map(role => {
+            return { name: role }
+          })
+          this.$refs.roleTree.setCheckedKeys(this.user.roles)
+          this.rolesLoading = false
+        })
+      }
     },
     hideRoles() {
       this.rolesVisible = false
       this.user = {}
-      this.roles = []
     },
     assignRoles() {
-      const roleIds = this.$refs.roleTree.getCheckedKeys()
-      assignRoles(this.user.id, roleIds).then(() => {
+      const roles = this.$refs.roleTree.getCheckedKeys()
+      assignRolesForAdministrator(this.user.username, roles).then(() => {
         this.hideRoles()
         this.$notify.success({
           title: 'Success',

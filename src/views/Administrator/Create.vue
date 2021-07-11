@@ -6,7 +6,7 @@
 
 <script>
 import AdminUserForm from './AdminUserForm.vue'
-import { createItem } from '@/api/admin_user'
+import { createItem } from '@/api/administrator'
 
 export default {
   components: {
@@ -25,7 +25,7 @@ export default {
   methods: {
     submit(user) {
       createItem(user).then(response => {
-        this.$router.push('/admin_users')
+        this.$router.push({ name: 'Administrator' })
       })
     }
   }

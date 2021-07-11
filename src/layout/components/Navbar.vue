@@ -7,16 +7,16 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <span class="el-dropdown-link" style="cursor: pointer">
-          Current User: {{ name }}<i class="el-icon-arrow-down el-icon--right" />
+          Hello, {{ name }}<i class="el-icon-arrow-down el-icon--right" />
         </span>
         <!-- <div class="avatar-wrapper">
           <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div> -->
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/update_password">
+          <router-link :to="{ name: 'EditPassword' }">
             <el-dropdown-item>
-              Update Password
+              Edit Password
             </el-dropdown-item>
           </router-link>
           <el-dropdown-item @click.native="logout">

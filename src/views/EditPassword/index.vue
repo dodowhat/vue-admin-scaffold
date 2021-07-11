@@ -52,9 +52,11 @@ export default {
               title: 'Success',
               message: 'Success'
             })
-              this.$store.dispatch('user/logout').then(() => {
-                this.$router.push(`/login`)
-              })
+            this.$store.dispatch('user/logout').then(() => {
+              this.$router.push({ name: 'Login' })
+            })
+          }).catch(error => {
+            return error
           })
         }
       })

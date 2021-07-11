@@ -96,6 +96,8 @@ export default {
       immediate: true
     }
   },
+  created() {
+  },
   methods: {
     showPwd() {
       if (this.passwordType === 'password') {
@@ -112,7 +114,7 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push('/')
+            this.$router.push('/').catch(error => { return error })
             this.loading = false
           }).catch(() => {
             this.loading = false

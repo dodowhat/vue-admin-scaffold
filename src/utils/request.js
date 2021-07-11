@@ -55,39 +55,32 @@ service.interceptors.response.use(
     if (!message) {
       message = error.message
     }
-    switch (error.response.status) {
-      case 401:
-        Notification({
-          title: 'Warning',
-          message: message,
-          duration: 5 * 1000,
-          type: 'warning'
-        })
-        store.dispatch('user/resetToken').then(() => {
-          if (router.currentRoute.path !== '/login') {
-            router.push('/login')
-          }
-        })
-        break
 
-      case 405:
-      case 422:
-        Notification({
-          title: 'Warning',
-          message: message,
-          duration: 5 * 1000,
-          type: 'warning'
-        })
-        break
-
-      default:
-        Notification({
-          title: 'Error',
-          message: message,
-          duration: 0,
-          type: 'error'
-        })
+    if (error.response.status === 401) {
+      Notification({
+        title: 'Warning',
+        message: message,
+        duration: 5 * 1000,
+        type: 'warning'
+      })
+      store.dispatch('user/resetToken').then(() => {
+        if (router.currentRoute.path !== '/login') {
+          router.push('/login')
+        }
+      })
+    } else if (error.response.status >= 400) {
+      const errors = error.response.data.errors
+      if (errors && errors.length > 0) {
+        message = `${errors[0].field} ${errors[0].default_message}`
+      }
+      Notification({
+        title: 'Error',
+        message: message,
+        duration: 0,
+        type: 'error'
+      })
     }
+
     return Promise.reject(error)
   }
 )

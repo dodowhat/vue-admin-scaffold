@@ -15,16 +15,9 @@ export function getInfo(token) {
   })
 }
 
-export function logout() {
-  return request({
-    url: '/admin/auth',
-    method: 'delete'
-  })
-}
-
 export function updatePassword(data) {
   return request({
-    url: '/admin/auth/update_password',
+    url: '/admin/auth/password',
     method: 'patch',
     data
   })

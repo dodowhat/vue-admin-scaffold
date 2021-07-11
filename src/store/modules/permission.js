@@ -1,10 +1,10 @@
-import store from '@/store'
-import { asyncRoutes } from '@/router'
+// import store from '@/store'
+import { asyncRoutes, constantRoutes } from '@/router'
 
 function filterRecursive(routes, roles) {
   const filteredRoutes = routes.filter(route => {
     if (route.meta && route.meta.roles) {
-      return roles.some(role => route.meta.roles.includes(role))
+      return roles.some(role => route.meta.roles.includes(role) || route.meta.roles.includes('root'))
     } else {
       return true
     }
@@ -23,15 +23,16 @@ const state = {
 
 const mutations = {
   SET_ROUTES: (state, routes) => {
-    state.routes = routes
+    state.routes = constantRoutes.concat(routes)
   }
 }
 
 const actions = {
-  filterRoutes({ commit }) {
+  filterRoutes({ commit }, roles) {
     return new Promise(resolve => {
-      commit('SET_ROUTES', filterRecursive(asyncRoutes, store.getters.roles))
-      resolve()
+      const routes = filterRecursive(asyncRoutes, roles)
+      commit('SET_ROUTES', routes)
+      resolve(routes)
     })
   }
 }

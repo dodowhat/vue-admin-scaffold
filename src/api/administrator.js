@@ -1,8 +1,10 @@
 import request from '@/utils/request'
 
+const basePath = '/admin/administrators'
+
 export function fetchList(data) {
   return request({
-    url: '/admin/admin_users',
+    url: basePath,
     method: 'get',
     data: data
   })
@@ -10,7 +12,7 @@ export function fetchList(data) {
 
 export function createItem(data) {
   return request({
-    url: '/admin/admin_users',
+    url: basePath,
     method: 'post',
     data: data
   })
@@ -18,29 +20,21 @@ export function createItem(data) {
 
 export function destroyItem(id) {
   return request({
-    url: '/admin/admin_users/' + id,
+    url: `${basePath}/${id}`,
     method: 'delete'
   })
 }
 
 export function fetchItem(id) {
   return request({
-    url: '/admin/admin_users/' + id,
+    url: `${basePath}/${id}`,
     method: 'get'
   })
 }
 
 export function resetPassword(id) {
   return request({
-    url: '/admin/admin_users/' + id + '/reset_password',
+    url: `${basePath}/${id}/password/reset`,
     method: 'patch'
-  })
-}
-
-export function assignRoles(id, roleIds) {
-  return request({
-    url: '/admin/admin_users/' + id + '/assign_roles',
-    method: 'patch',
-    data: { role_ids: roleIds }
   })
 }

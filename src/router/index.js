@@ -49,12 +49,14 @@ export const constantRoutes = [
   },
   {
     path: '/login',
-    component: () => import('@/views/login/index'),
+    name: 'Login',
+    component: () => import('@/views/Login/index'),
     hidden: true
   },
 
   {
     path: '/404',
+    name: 'NotFound',
     component: () => import('@/views/404'),
     hidden: true
   },
@@ -66,51 +68,23 @@ export const constantRoutes = [
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
+      component: () => import('@/views/Dashboard/index'),
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
 
   {
-    path: '/update_password',
+    path: '/password/edit',
     component: Layout,
     hidden: true,
     children: [{
       path: '',
-      name: 'UpdatePassword',
-      component: () => import('@/views/update_password/index'),
-      meta: { title: 'Update Password', icon: 'dashboard' }
+      name: 'EditPassword',
+      component: () => import('@/views/EditPassword/index'),
+      meta: { title: 'Edit Password', icon: 'dashboard' }
     }]
-  },
+  }
 
-  {
-    path: '/admin_users',
-    component: Layout,
-    meta: { roles: ['admin'] },
-    children: [
-      {
-        path: '',
-        name: 'AdminUsers',
-        component: () => import('@/views/admin_user/index'),
-        meta: { title: 'AdminUsers', icon: 'user', roles: ['admin'] }
-      }
-    ]
-  },
-
-  {
-    path: '/admin_roles',
-    component: Layout,
-    meta: { roles: ['admin'] },
-    children: [{
-      path: '',
-      name: 'AdminRoles',
-      component: () => import('@/views/admin_role/index'),
-      meta: { title: 'AdminRoles', icon: 'list', roles: ['admin'] }
-    }]
-  },
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({
@@ -135,33 +109,32 @@ export function resetRouter() {
 
 export const asyncRoutes = [
   {
-    path: '/admin_users',
+    path: '/rbac',
     component: Layout,
-    meta: { roles: ['admin'] },
+    meta: { roles: ['root'] },
+    children: [{
+      path: '',
+      name: 'Rbac',
+      component: () => import('@/views/Rbac/index'),
+      meta: { title: 'RBAC', icon: 'list', roles: ['root'] }
+    }]
+  },
+  {
+    path: '/administrators',
+    component: Layout,
+    meta: { roles: ['root'] },
     children: [
       {
         path: '',
-        name: 'AdminUsers',
-        component: () => import('@/views/admin_user/index'),
-        meta: { title: 'AdminUsers', icon: 'user', roles: ['admin'] }
+        name: 'Administrator',
+        component: () => import('@/views/Administrator/index'),
+        meta: { title: 'Administrator', icon: 'user', roles: ['root'] }
       }
     ]
   },
 
-  {
-    path: '/admin_roles',
-    component: Layout,
-    meta: { roles: ['admin'] },
-    children: [{
-      path: '',
-      name: 'AdminRoles',
-      component: () => import('@/views/admin_role/index'),
-      meta: { title: 'AdminRoles', icon: 'list', roles: ['admin'] }
-    }]
-  },
-
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  { path: '*', name: 'Any', redirect: '/404', hidden: true }
 ]
 
 export default router
